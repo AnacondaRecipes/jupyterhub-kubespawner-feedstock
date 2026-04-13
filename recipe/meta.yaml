@@ -10,17 +10,16 @@ source:
   sha256: ac36cddc8229f3818e6ba08628d71ede991da253f49c3c1de3acba2fab98a44f
 
 build:
-  noarch: python
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv
+  script: "{{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check"
 
 requirements:
   host:
-    - python {{ python_min }}
+    - python
     - pip
     - hatchling
   run:
-    - python >={{ python_min }}
+    - python
     - escapism
     - jinja2
     - jupyterhub >=4.0.0
@@ -32,16 +31,23 @@ requirements:
 
 test:
   requires:
-    - python {{ python_min }}
+    - pip
   imports:
     - kubespawner
+  commands:
+    - pip check
 
 about:
   home: https://github.com/jupyterhub/kubespawner
+  dev_url: https://github.com/jupyterhub/kubespawner
+  doc_url: https://jupyterhub-kubespawner.readthedocs.io
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
   summary: Kubernetes spawner for JupyterHub
+  description: |
+    KubeSpawner enables JupyterHub to start and manage single-user notebook
+    servers on a Kubernetes cluster.
 
 extra:
   recipe-maintainers:
